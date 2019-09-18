@@ -15,6 +15,7 @@ package com.lexor.autoupdate.parsers;
 
 import com.lexor.autoupdate.objects.Modes;
 import com.lexor.autoupdate.objects.Release;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -45,6 +46,19 @@ public class ReleaseXMLParser {
             java.io.InputStream in = conn.getInputStream();
             reader.parse(new InputSource(in));
         }
+
+        return handler.getInfo();
+
+    }
+    public Release parse(BufferedReader buffrer) throws SAXException, FileNotFoundException, IOException, InterruptedException {
+        XMLReader reader = XMLReaderFactory.createXMLReader();
+        ReleaseXMLParserHandler handler = new ReleaseXMLParserHandler();
+        reader.setContentHandler(handler);
+        reader.setErrorHandler(handler);
+
+        
+        reader.parse(new InputSource(buffrer));
+        
 
         return handler.getInfo();
 
